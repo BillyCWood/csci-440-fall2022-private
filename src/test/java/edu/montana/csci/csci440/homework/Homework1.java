@@ -37,8 +37,8 @@ public class Homework1 extends DBTest {
          */
     void selectTheTrackAndAlbumAndArtistForAllTracksLongerThanSixMinutes() {
         List<Map<String, Object>> results = executeSQL(
-                "SELECT tracks.Name as TrackName, albums.Title as AlbumTitle, artists.Name as ArtistsName, SUM(tracks.Milliseconds) as ms FROM tracks " +
-                        "JOIN albums ON tracks.AlbumId = albums.AlbumId JOIN artists ON albums.ArtistId = artists.ArtistId GROUP BY tracks.Name HAVING ms > 360000");
+                "SELECT tracks.Name as TrackName, albums.Title as AlbumTitle, artists.Name as ArtistsName, SUM(tracks.Milliseconds) as MS FROM tracks " +
+                        "JOIN albums ON tracks.AlbumId = albums.AlbumId JOIN artists ON albums.ArtistId = artists.ArtistId GROUP BY TrackName, AlbumTitle, ArtistsName HAVING MS > 360000");
 
         assertEquals(623, results.size());
 
