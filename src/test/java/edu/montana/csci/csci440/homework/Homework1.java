@@ -10,21 +10,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Homework1 extends DBTest {
 
     @Test
-    /*
-     * Write a query in the string below that returns all artists that have an 'A' in their name
-     */
+        /*
+         * Write a query in the string below that returns all artists that have an 'A' in their name
+         */
     void selectArtistsWhoseNameHasAnAInIt(){
-        List<Map<String, Object>> results = executeSQL("SELECT * FROM artists");
+        List<Map<String, Object>> results = executeSQL("SELECT name FROM artists WHERE name LIKE '%A%'");
         assertEquals(211, results.size());
     }
 
     @Test
-    /*
-     * Write a query in the string below that returns all artists that have more than one album
-     */
+        /*
+         * Write a query in the string below that returns all artists that have more than one album
+         */
     void selectAllArtistsWithMoreThanOneAlbum(){
         List<Map<String, Object>> results = executeSQL(
-                "SELECT * FROM artists");
+                "SELECT artists.Name, COUNT(albums.AlbumId) as NumAlbums FROM artists JOIN albums ON artists.ArtistId = albums.ArtistId GROUP BY artists.Name HAVING NumAlbums > 1");
 
         assertEquals(56, results.size());
         assertEquals("AC/DC", results.get(0).get("Name"));
@@ -37,8 +37,8 @@ public class Homework1 extends DBTest {
          */
     void selectTheTrackAndAlbumAndArtistForAllTracksLongerThanSixMinutes() {
         List<Map<String, Object>> results = executeSQL(
-                "SELECT tracks.Name as TrackName, albums.Title as AlbumTitle, artists.Name as ArtistsName FROM tracks " +
-                        "-- NEED TO DO SOME JOINS HERE KIDS");
+                "SELECT tracks.Name as TrackName, albums.Title as AlbumTitle, artists.Name as ArtistsName, SUM(tracks.Milliseconds) as ms FROM tracks " +
+                        "JOIN albums ON tracks.AlbumId = albums.AlbumId JOIN artists ON albums.ArtistId = artists.ArtistId GROUP BY tracks.Name HAVING ms > 360000");
 
         assertEquals(623, results.size());
 
