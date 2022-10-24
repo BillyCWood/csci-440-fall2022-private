@@ -61,7 +61,11 @@ public class Homework2 extends DBTest {
         Integer before = (Integer) executeSQL("SELECT COUNT(*) as COUNT FROM genres").get(0).get("COUNT");
 
         //TODO fill this in
-        executeUpdate("INSERT");
+        executeUpdate("INSERT INTO genres(GenreId, Name) VALUES (26, 'Christian Worship')");
+        executeUpdate("INSERT INTO genres(GenreId, Name) VALUES (27, 'Disney Movies')");
+        executeUpdate("INSERT INTO genres(GenreId, Name) VALUES (28, 'Country')");
+        executeUpdate("INSERT INTO genres(GenreId, Name) VALUES (29, 'New-Age')");
+        executeUpdate("INSERT INTO genres(GenreId, Name) VALUES (30, 'K-Pop')");
 
         Integer after = (Integer) executeSQL("SELECT COUNT(*) as COUNT FROM genres").get(0).get("COUNT");
         assertEquals(before + 5, after);
