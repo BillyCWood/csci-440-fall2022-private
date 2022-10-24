@@ -36,8 +36,8 @@ public class Homework2 extends DBTest {
      */
     public void createGrammyInfoTable(){
         //TODO fill these in
-        executeDDL("create table grammy_categories");
-        executeDDL("create table grammy_infos");
+        executeDDL("create table grammy_categories(GrammyCategoryId INTEGER, Name NVARCHAR(160))");
+        executeDDL("create table grammy_infos(ArtistId INTEGER, AlbumId INTEGER, TrackId INTEGER, GrammyCategoryId INTEGER, Status NVARCHAR(10))");
 
         // TEST CODE
         executeUpdate("INSERT INTO grammy_categories(Name) VALUES ('Greatest Ever');");
