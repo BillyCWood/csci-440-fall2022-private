@@ -17,7 +17,7 @@ public class Homework3 extends DBTest {
 
     @Test
     /*
-     * Use a transaction to safely move milliseconds from one track to anotherls
+     * Use a transaction to safely move milliseconds from one track to another
      *
      * You will need to use the JDBC transaction API, outlined here:
      *
@@ -33,17 +33,17 @@ public class Homework3 extends DBTest {
 
         try(Connection connection = DB.connect()){
             connection.setAutoCommit(false);
-            PreparedStatement subtract = connection.prepareStatement("TODO");
+            PreparedStatement subtract = connection.prepareStatement("UPDATE tracks SET Milliseconds = (Milliseconds - 10) WHERE TrackId = "+ track1.getTrackId());
             subtract.setLong(1, 0);
             subtract.setLong(2, 0);
             subtract.execute();
 
-            PreparedStatement add = connection.prepareStatement("TODO");
+            PreparedStatement add = connection.prepareStatement("UPDATE tracks SET Milliseconds = (Milliseconds + 10) WHERE TrackId = " +track2.getTrackId());
             add.setLong(1, 0);
             add.setLong(2, 0);
             add.execute();
 
-            // commit with the connection
+            connection.commit();// commit with the connection
         }
 
         // refresh tracks from db
@@ -84,7 +84,7 @@ public class Homework3 extends DBTest {
      * */
     public void selectCustomersMeetingCriteria() throws SQLException {
         // HINT: join to invoice items and do a group by/having to get the right answer
-        List<Map<String, Object>> tracks = executeSQL("" );
+        List<Map<String, Object>> tracks = executeSQL("SELECT Email FROM customers WHERE SupportRepId IN (SELECT EmployeeId FROM employees WHERE LastName = 'Peacock');");
         assertEquals(21, tracks.size());
     }
 

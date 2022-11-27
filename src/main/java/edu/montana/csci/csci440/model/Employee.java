@@ -44,6 +44,13 @@ public class Employee extends Model {
         if (lastName == null || "".equals(lastName)) {
             addError("LastName can't be null!");
         }
+        if (email == null || "".equals(email)){
+            addError("Email can't be null!");
+            return !hasErrors();
+        }
+        if(!email.contains("@")){
+            addError("Not a valid email address!");
+        }
         return !hasErrors();
     }
 
@@ -159,12 +166,19 @@ public class Employee extends Model {
         return all(0, Integer.MAX_VALUE);
     }
 
+
+    private static int getOffset(int page, int count){return (page-1)*count;}
+
     public static List<Employee> all(int page, int count) {
+
+        int offset = getOffset(page, count);
+
         try (Connection conn = DB.connect();
              PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT * FROM employees LIMIT ?"
+                     "SELECT * FROM employees LIMIT ? OFFSET ?"
              )) {
             stmt.setInt(1, count);
+            stmt.setInt(2, offset);
             ResultSet results = stmt.executeQuery();
             List<Employee> resultList = new LinkedList<>();
             while (results.next()) {

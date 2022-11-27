@@ -20,6 +20,21 @@ public class MediaType extends Model {
         mediaTypeId = results.getLong("MediaTypeId");
     }
 
+    public static MediaType find(long i) {
+        try (Connection conn = DB.connect();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM media_types WHERE MediaTypeId=?")) {
+            stmt.setLong(1, i);
+            ResultSet results = stmt.executeQuery();
+            if (results.next()) {
+                return new MediaType(results);
+            } else {
+                return null;
+            }
+        } catch (SQLException sqlException) {
+            throw new RuntimeException(sqlException);
+        }
+    }
+
     public Long getMediaTypeId() {
         return mediaTypeId;
     }

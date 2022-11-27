@@ -25,6 +25,7 @@ public class Invoice extends Model {
 
     private Invoice(ResultSet results) throws SQLException {
         billingAddress = results.getString("BillingAddress");
+        billingCity = results.getString("BillingCity");
         billingState = results.getString("BillingState");
         billingCountry = results.getString("BillingCountry");
         billingPostalCode = results.getString("BillingPostalCode");
@@ -96,11 +97,19 @@ public class Invoice extends Model {
         return all(0, Integer.MAX_VALUE);
     }
 
+
+    private static int getOffset(int page, int count){return (page-1)*count;}
+
     public static List<Invoice> all(int page, int count) {
+
+        int offset = getOffset(page, count);
+
         try (Connection conn = DB.connect();
              PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT * FROM invoices"
+                     "SELECT * FROM invoices LIMIT ? OFFSET?"
              )) {
+            stmt.setInt(1, count);
+            stmt.setInt(2, offset);
             ResultSet results = stmt.executeQuery();
             List<Invoice> resultList = new LinkedList<>();
             while (results.next()) {
