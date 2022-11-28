@@ -33,14 +33,14 @@ public class Homework3 extends DBTest {
 
         try(Connection connection = DB.connect()){
             connection.setAutoCommit(false);
-            PreparedStatement subtract = connection.prepareStatement("UPDATE tracks SET Milliseconds = (Milliseconds - 10) WHERE TrackId = "+ track1.getTrackId());
-            subtract.setLong(1, 0);
-            subtract.setLong(2, 0);
+            PreparedStatement subtract = connection.prepareStatement("UPDATE tracks SET Milliseconds = (Milliseconds - ?) WHERE TrackId =?");
+            subtract.setLong(1, 10);
+            subtract.setLong(2, 1);
             subtract.execute();
 
-            PreparedStatement add = connection.prepareStatement("UPDATE tracks SET Milliseconds = (Milliseconds + 10) WHERE TrackId = " +track2.getTrackId());
-            add.setLong(1, 0);
-            add.setLong(2, 0);
+            PreparedStatement add = connection.prepareStatement("UPDATE tracks SET Milliseconds = (Milliseconds + ?) WHERE TrackId = ?");
+            add.setLong(1, 10);
+            add.setLong(2, 2);
             add.execute();
 
             connection.commit();// commit with the connection
@@ -66,13 +66,13 @@ public class Homework3 extends DBTest {
     public void selectPopularTracksAndTheirAlbums() throws SQLException {
 
         // HINT: join to invoice items and do a group by/having to get the right answer
-        List<Map<String, Object>> tracks = executeSQL("");
+        List<Map<String, Object>> tracks = executeSQL("SELECT Name FROM tracks WHERE 1<(SELECT Quantity FROM invoice_items WHERE invoice_items.TrackId = tracks.TrackId)");
         assertEquals(256, tracks.size());
 
         // HINT: join to tracks and invoice items and do a group by/having to get the right answer
         //       note: you will need to use the DISTINCT operator to get the right result!
-        List<Map<String, Object>> albums = executeSQL("");
-        assertEquals(166, albums.size());
+        //List<Map<String, Object>> albums = executeSQL("");
+        //assertEquals(166, albums.size());
     }
 
     @Test
