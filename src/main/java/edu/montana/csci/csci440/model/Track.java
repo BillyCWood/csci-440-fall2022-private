@@ -47,6 +47,56 @@ public class Track extends Model {
         genreId = results.getLong("GenreId");
     }
 
+
+    @Override
+    public boolean verify() {
+        _errors.clear(); // clear any existing errors
+        if (name == null || "".equals(name)) {
+            addError("Name can't be null!");
+        }
+        if (albumId == null || "".equals(albumId)){
+            addError("Album ID can't be null!");
+        }
+        return !hasErrors();
+    }
+
+    @Override
+    public boolean create() {
+        if (verify()) {
+            try (Connection conn = DB.connect();
+                 PreparedStatement stmt = conn.prepareStatement(
+                         "INSERT INTO tracks (Name, AlbumId) VALUES (?, ?)")) {
+                stmt.setString(1, this.getName());
+                stmt.setLong(2, this.getAlbumId());
+                stmt.executeUpdate();
+                trackId = DB.getLastID(conn);
+                return true;
+            } catch (SQLException sqlException) {
+                throw new RuntimeException(sqlException);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update() {
+        if (verify()) {
+            try (Connection conn = DB.connect();
+                 PreparedStatement stmt = conn.prepareStatement(
+                         "UPDATE tracks SET Name=? WHERE TrackId=?")) {
+                stmt.setString(1, this.getName());
+                stmt.setLong(2, this.getTrackId());
+                stmt.executeUpdate();
+                return true;
+            } catch (SQLException sqlException) {
+                throw new RuntimeException(sqlException);
+            }
+        } else {
+            return false;
+        }
+    }
+
     public static Track find(long i) {
         try (Connection conn = DB.connect();
              PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tracks WHERE TrackId=?")) {
@@ -64,6 +114,13 @@ public class Track extends Model {
 
     public static Long count() {
         Jedis redisClient = new Jedis(); // use this class to access redis and create a cache
+        String currentCacheString = redisClient.get(REDIS_CACHE_KEY);
+
+        if(currentCacheString == null){
+            long currentCacheLong = Long.parseLong(currentCacheString);
+            return currentCacheLong;
+        }
+
         try (Connection conn = DB.connect();
              PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) as Count FROM tracks")) {
             ResultSet results = stmt.executeQuery();
@@ -82,10 +139,10 @@ public class Track extends Model {
     }
 
     public MediaType getMediaType() {
-        return null;
+        return MediaType.find(this.mediaTypeId);
     }
     public Genre getGenre() {
-        return null;
+        return Genre.find(this.genreId);
     }
     public List<Playlist> getPlaylists(){
         return Collections.emptyList();
@@ -251,12 +308,18 @@ public class Track extends Model {
         return all(page, count, "TrackId");
     }
 
+    private static int getOffset(int page, int count){return (page-1)*count;}
+
     public static List<Track> all(int page, int count, String orderBy) {
+
+        int offset = getOffset(page, count);
+
         try (Connection conn = DB.connect();
              PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT * FROM tracks LIMIT ?"
+                     "SELECT * FROM tracks LIMIT ? OFFSET ?"
              )) {
             stmt.setInt(1, count);
+            stmt.setInt(2, offset);
             ResultSet results = stmt.executeQuery();
             List<Track> resultList = new LinkedList<>();
             while (results.next()) {
