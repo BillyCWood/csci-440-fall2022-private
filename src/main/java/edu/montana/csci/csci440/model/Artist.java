@@ -1,6 +1,7 @@
 package edu.montana.csci.csci440.model;
 
 import edu.montana.csci.csci440.util.DB;
+import org.javalite.activejdbc.annotations.VersionColumn;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,12 +17,16 @@ public class Artist extends Model {
     Long artistId;
     String name;
 
+    private String oldName;
+
     public Artist() {
     }
 
     private Artist(ResultSet results) throws SQLException {
         name = results.getString("Name");
         artistId = results.getLong("ArtistId");
+        oldName = name;
+
     }
 
 
@@ -60,10 +65,12 @@ public class Artist extends Model {
         if (verify()) {
             try (Connection conn = DB.connect();
                  PreparedStatement stmt = conn.prepareStatement(
-                         "UPDATE artists SET Name=? WHERE ArtistId=?")) {
-                stmt.setString(1, this.getName());
-                stmt.setLong(2, this.getArtistId());
-                stmt.executeUpdate();
+                         "UPDATE artists SET Name=? WHERE ArtistId=? AND Name=?")) {
+                stmt.setString(1, getName());
+                stmt.setLong(2, getArtistId());
+                stmt.setString(3, oldName);
+                int updated = stmt.executeUpdate();
+                if(updated!=1){return false;}
                 return true;
             } catch (SQLException sqlException) {
                 throw new RuntimeException(sqlException);
