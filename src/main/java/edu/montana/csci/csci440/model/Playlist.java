@@ -34,9 +34,9 @@ public class Playlist extends Model {
             stmt.setLong(1, getPlaylistId());
             ResultSet results = stmt.executeQuery();
             List<Track> resultList = new LinkedList<>();
-
             while(results.next()){
                 Track track = new Track();
+                track.setName(results.getString(1));
                 resultList.add(track);
             }
 

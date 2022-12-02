@@ -65,10 +65,14 @@ public class Track extends Model {
         if (verify()) {
             try (Connection conn = DB.connect();
                  PreparedStatement stmt = conn.prepareStatement(
-                         "INSERT INTO tracks (Name, AlbumId) VALUES (?, ?)")) {
+                         "INSERT INTO tracks (Name, AlbumId, MediaTypeId, Milliseconds, UnitPrice) VALUES (?, ?, ?, ?, ?)")) {
                 stmt.setString(1, this.getName());
                 stmt.setLong(2, this.getAlbumId());
+                stmt.setLong(3, this.getMediaTypeId());
+                stmt.setLong(4, this.getMilliseconds());
+                stmt.setBigDecimal(5, this.getUnitPrice());
                 stmt.executeUpdate();
+                trackId = DB.getLastID(conn);
                 return true;
             } catch (SQLException sqlException) {
                 throw new RuntimeException(sqlException);
@@ -93,6 +97,19 @@ public class Track extends Model {
             }
         } else {
             return false;
+        }
+    }
+
+
+    @Override
+    public void delete(){
+        if(verify()){
+            try(Connection conn = DB.connect();
+                PreparedStatement stmt = conn.prepareStatement(
+                        "DELETE FROM tracks WHERE TrackId = ?")){
+                stmt.setLong(1,this.getTrackId());
+                stmt.execute();
+            }catch (SQLException sqlException){throw new RuntimeException(sqlException);}
         }
     }
 
@@ -149,7 +166,24 @@ public class Track extends Model {
         return Genre.find(this.genreId);
     }
     public List<Playlist> getPlaylists(){
-        return Collections.emptyList();
+        try(Connection conn = DB.connect();
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT playlists.Name FROM playlists JOIN playlist_track ON playlists.PlaylistId = playlist_track.PlaylistId JOIN tracks ON playlist_track.TrackId = tracks.TrackId WHERE playlist_track.TrackId = ? ORDER BY playlists.Name"
+            )){
+            stmt.setLong(1, getTrackId());
+            ResultSet results = stmt.executeQuery();
+            List<Playlist> resultList = new LinkedList<>();
+            while(results.next()){
+                Playlist playlist = new Playlist();
+                playlist.setName(results.getString(1));
+                resultList.add(playlist);
+            }
+
+            return resultList;
+
+        } catch (SQLException sqlException) {
+            throw new RuntimeException(sqlException);
+        }
     }
 
     public Long getTrackId() {
@@ -247,6 +281,10 @@ public class Track extends Model {
             query += " AND ArtistId=? ";
             args.add(artistId);
         }
+        if(albumId !=null){
+            query += " AND tracks.AlbumId=? ";
+            args.add(albumId);
+        }
 
         //  include the limit (you should include the page too :)
         query += " LIMIT ?";
@@ -254,10 +292,13 @@ public class Track extends Model {
 
         try (Connection conn = DB.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
+
             for (int i = 0; i < args.size(); i++) {
                 Object arg = args.get(i);
                 stmt.setObject(i + 1, arg);
             }
+
+
             ResultSet results = stmt.executeQuery();
             List<Track> resultList = new LinkedList<>();
             while (results.next()) {
@@ -320,11 +361,10 @@ public class Track extends Model {
 
         try (Connection conn = DB.connect();
              PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT * FROM tracks ORDER BY ? LIMIT ? OFFSET ?"
+                     "SELECT * FROM tracks ORDER BY " +orderBy+" LIMIT ? OFFSET ?"
              )) {
-            stmt.setString(1, orderBy);
-            stmt.setInt(2, count);
-            stmt.setInt(3, offset);
+            stmt.setInt(1, count);
+            stmt.setInt(2, offset);
             ResultSet results = stmt.executeQuery();
             List<Track> resultList = new LinkedList<>();
             while (results.next()) {
