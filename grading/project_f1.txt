@@ -27,7 +27,7 @@
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.358 s - in edu.montana.csci.csci440.model.InvoicesTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.319 s - in edu.montana.csci.csci440.model.InvoicesTest
 [INFO] Running edu.montana.csci.csci440.model.TrackTest
 Resetting DB After Test...
 Resetting DB After Test...
@@ -41,59 +41,35 @@ Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[ERROR] Tests run: 12, Failures: 5, Errors: 3, Skipped: 0, Time elapsed: 0.077 s <<< FAILURE! - in edu.montana.csci.csci440.model.TrackTest
-[ERROR] testAlbumNameIsStoredOnTrack  Time elapsed: 0 s  <<< FAILURE!
+[ERROR] Tests run: 12, Failures: 3, Errors: 1, Skipped: 0, Time elapsed: 0.053 s <<< FAILURE! - in edu.montana.csci.csci440.model.TrackTest
+[ERROR] testAlbumNameIsStoredOnTrack  Time elapsed: 0.001 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <10> but was: <11>
 	at edu.montana.csci.csci440.model.TrackTest.testAlbumNameIsStoredOnTrack(TrackTest.java:96)
 
-[ERROR] testOrderByWorks  Time elapsed: 0.002 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <É Uma Partida De Futebol> but was: <For Those About To Rock (We Salute You)>
-	at edu.montana.csci.csci440.model.TrackTest.testOrderByWorks(TrackTest.java:102)
-
-[ERROR] testDeleteWorks  Time elapsed: 0.024 s  <<< ERROR!
-java.lang.RuntimeException: org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL]  A NOT NULL constraint failed (NOT NULL constraint failed: tracks.MediaTypeId)
-	at edu.montana.csci.csci440.model.TrackTest.testDeleteWorks(TrackTest.java:50)
-Caused by: org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL]  A NOT NULL constraint failed (NOT NULL constraint failed: tracks.MediaTypeId)
-	at edu.montana.csci.csci440.model.TrackTest.testDeleteWorks(TrackTest.java:50)
-
-[ERROR] testTrackListsWorks  Time elapsed: 0.003 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <3> but was: <0>
-	at edu.montana.csci.csci440.model.TrackTest.testTrackListsWorks(TrackTest.java:108)
-
-[ERROR] testCreateWorks  Time elapsed: 0.003 s  <<< ERROR!
-java.lang.RuntimeException: org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL]  A NOT NULL constraint failed (NOT NULL constraint failed: tracks.MediaTypeId)
-	at edu.montana.csci.csci440.model.TrackTest.testCreateWorks(TrackTest.java:36)
-Caused by: org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL]  A NOT NULL constraint failed (NOT NULL constraint failed: tracks.MediaTypeId)
-	at edu.montana.csci.csci440.model.TrackTest.testCreateWorks(TrackTest.java:36)
-
 [ERROR] advancedSearchTest  Time elapsed: 0.003 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <4> but was: <8>
-	at edu.montana.csci.csci440.model.TrackTest.advancedSearchTest(TrackTest.java:142)
+org.opentest4j.AssertionFailedError: expected: <3> but was: <4>
+	at edu.montana.csci.csci440.model.TrackTest.advancedSearchTest(TrackTest.java:145)
 
-[ERROR] trackCountIsCachedInRedis  Time elapsed: 0.001 s  <<< ERROR!
+[ERROR] trackCountIsCachedInRedis  Time elapsed: 0.002 s  <<< ERROR!
 java.lang.NumberFormatException: Cannot parse null string
 	at edu.montana.csci.csci440.model.TrackTest.trackCountIsCachedInRedis(TrackTest.java:115)
 
-[ERROR] testArtistNameIsStoredOnTrack  Time elapsed: 0.003 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <31> but was: <33>
+[ERROR] testArtistNameIsStoredOnTrack  Time elapsed: 0.004 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <37> but was: <39>
 	at edu.montana.csci.csci440.model.TrackTest.testArtistNameIsStoredOnTrack(TrackTest.java:87)
 
 [INFO] Running edu.montana.csci.csci440.model.PlaylistsTest
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[ERROR] Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! - in edu.montana.csci.csci440.model.PlaylistsTest
-[ERROR] testPlaylistFieldsLoad  Time elapsed: 0.001 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <...And Found> but was: <null>
-	at edu.montana.csci.csci440.model.PlaylistsTest.testPlaylistFieldsLoad(PlaylistsTest.java:23)
-
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s - in edu.montana.csci.csci440.model.PlaylistsTest
 [INFO] Running edu.montana.csci.csci440.model.AlbumTest
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in edu.montana.csci.csci440.model.AlbumTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s - in edu.montana.csci.csci440.model.AlbumTest
 [INFO] Running edu.montana.csci.csci440.model.EmployeeTest
 Resetting DB After Test...
 Reports To: 1
@@ -103,14 +79,16 @@ Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[ERROR] Tests run: 7, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.018 s <<< FAILURE! - in edu.montana.csci.csci440.model.EmployeeTest
-[ERROR] testEmployeeHelperOnlyIssuesOneQuery  Time elapsed: 0.006 s  <<< FAILURE!
+[ERROR] Tests run: 7, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.022 s <<< FAILURE! - in edu.montana.csci.csci440.model.EmployeeTest
+[ERROR] testEmployeeHelperOnlyIssuesOneQuery  Time elapsed: 0.005 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
 	at edu.montana.csci.csci440.model.EmployeeTest.testEmployeeHelperOnlyIssuesOneQuery(EmployeeTest.java:88)
 
-[ERROR] testEmployeeSalesReport  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.IndexOutOfBoundsException: Index: 0
-	at edu.montana.csci.csci440.model.EmployeeTest.testEmployeeSalesReport(EmployeeTest.java:94)
+[ERROR] testEmployeeSalesReport  Time elapsed: 0.003 s  <<< ERROR!
+java.lang.RuntimeException: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (near "AS": syntax error)
+	at edu.montana.csci.csci440.model.EmployeeTest.testEmployeeSalesReport(EmployeeTest.java:93)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (near "AS": syntax error)
+	at edu.montana.csci.csci440.model.EmployeeTest.testEmployeeSalesReport(EmployeeTest.java:93)
 
 [INFO] Running edu.montana.csci.csci440.model.ArtistTest
 Resetting DB After Test...
@@ -119,36 +97,31 @@ Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s - in edu.montana.csci.csci440.model.ArtistTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s - in edu.montana.csci.csci440.model.ArtistTest
 [INFO] Running edu.montana.csci.csci440.model.CustomerTest
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in edu.montana.csci.csci440.model.CustomerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.01 s - in edu.montana.csci.csci440.model.CustomerTest
 [INFO] 
 [INFO] Results:
 [INFO] 
 [ERROR] Failures: 
 [ERROR]   EmployeeTest.testEmployeeHelperOnlyIssuesOneQuery:88 expected: <true> but was: <false>
-[ERROR]   PlaylistsTest.testPlaylistFieldsLoad:23 expected: <...And Found> but was: <null>
-[ERROR]   TrackTest.advancedSearchTest:142 expected: <4> but was: <8>
+[ERROR]   TrackTest.advancedSearchTest:145 expected: <3> but was: <4>
 [ERROR]   TrackTest.testAlbumNameIsStoredOnTrack:96 expected: <10> but was: <11>
-[ERROR]   TrackTest.testArtistNameIsStoredOnTrack:87 expected: <31> but was: <33>
-[ERROR]   TrackTest.testOrderByWorks:102 expected: <É Uma Partida De Futebol> but was: <For Those About To Rock (We Salute You)>
-[ERROR]   TrackTest.testTrackListsWorks:108 expected: <3> but was: <0>
+[ERROR]   TrackTest.testArtistNameIsStoredOnTrack:87 expected: <37> but was: <39>
 [ERROR] Errors: 
-[ERROR]   EmployeeTest.testEmployeeSalesReport:94 » IndexOutOfBounds Index: 0
-[ERROR]   TrackTest.testCreateWorks:36 » Runtime org.sqlite.SQLiteException: [SQLITE_CON...
-[ERROR]   TrackTest.testDeleteWorks:50 » Runtime org.sqlite.SQLiteException: [SQLITE_CON...
+[ERROR]   EmployeeTest.testEmployeeSalesReport:93 » Runtime org.sqlite.SQLiteException: ...
 [ERROR]   TrackTest.trackCountIsCachedInRedis:115 » NumberFormat Cannot parse null strin...
 [INFO] 
-[ERROR] Tests run: 39, Failures: 7, Errors: 4, Skipped: 0
+[ERROR] Tests run: 39, Failures: 4, Errors: 2, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.550 s
-[INFO] Finished at: 2022-11-30T16:31:20-07:00
+[INFO] Total time:  1.506 s
+[INFO] Finished at: 2022-12-02T16:00:37-07:00
 [INFO] ------------------------------------------------------------------------
 [ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.22.1:test (default-test) on project CSCI_440_Project: There are test failures.
 [ERROR] 
