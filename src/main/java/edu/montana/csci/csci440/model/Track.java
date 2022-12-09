@@ -26,6 +26,8 @@ public class Track extends Model {
     private Long bytes;
     private BigDecimal unitPrice;
 
+    private String albumTitle;
+
     public static final String REDIS_CACHE_KEY = "cs440-tracks-count-cache";
 
     public Track() {
@@ -73,6 +75,11 @@ public class Track extends Model {
                 stmt.setBigDecimal(5, this.getUnitPrice());
                 stmt.executeUpdate();
                 trackId = DB.getLastID(conn);
+
+                //invalidate cache
+                Jedis redisClient = new Jedis();
+                redisClient.del(REDIS_CACHE_KEY);
+
                 return true;
             } catch (SQLException sqlException) {
                 throw new RuntimeException(sqlException);
@@ -129,14 +136,20 @@ public class Track extends Model {
     }
 
     public static Long count() {
+
         Jedis redisClient = new Jedis(); // use this class to access redis and create a cache
         String currentCacheString = redisClient.get(REDIS_CACHE_KEY);
+        long currentCacheLong;
 
-        if (currentCacheString == null) {
-            long currentCacheLong = Long.parseLong(currentCacheString);
-            return currentCacheLong;
+        if (currentCacheString != null) {
+            currentCacheLong = Long.parseLong(currentCacheString);
         }
-        return queryCount();
+        else{
+            currentCacheLong = queryCount();
+            redisClient.set(REDIS_CACHE_KEY, String.valueOf(currentCacheLong));
+
+        }
+        return currentCacheLong;
     }
 
 
@@ -263,7 +276,19 @@ public class Track extends Model {
     public String getAlbumTitle() {
         // TODO implement more efficiently
         //  hint: cache on this model object
-        return getAlbum().getTitle();
+        String AlbumTitle = "";
+        try(Connection conn = DB.connect();
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT albums.Title FROM tracks JOIN albums ON tracks.AlbumId = albums.AlbumId WHERE albums.AlbumId = ?"
+            )){
+            stmt.setLong(1, getAlbumId());
+            ResultSet results = stmt.executeQuery();
+            AlbumTitle = results.getString(1);
+
+        } catch (SQLException sqlException) {
+            throw new RuntimeException(sqlException);
+        }
+        return AlbumTitle;
     }
 
     public static List<Track> advancedSearch(int page, int count,
