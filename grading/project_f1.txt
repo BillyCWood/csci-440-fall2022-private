@@ -9,7 +9,9 @@
 [INFO] Copying 33 resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ CSCI_440_Project ---
-[INFO] Nothing to compile - all classes are up to date
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 23 source files to /Users/carson/Projects/msu/demo/csci-440-fall2022-private/grading/scripts/repos/william_wood/target/classes
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ CSCI_440_Project ---
 [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
@@ -27,7 +29,7 @@
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.291 s - in edu.montana.csci.csci440.model.InvoicesTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.273 s - in edu.montana.csci.csci440.model.InvoicesTest
 [INFO] Running edu.montana.csci.csci440.model.TrackTest
 Resetting DB After Test...
 Resetting DB After Test...
@@ -41,7 +43,7 @@ Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[ERROR] Tests run: 12, Failures: 3, Errors: 1, Skipped: 0, Time elapsed: 0.054 s <<< FAILURE! - in edu.montana.csci.csci440.model.TrackTest
+[ERROR] Tests run: 12, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.049 s <<< FAILURE! - in edu.montana.csci.csci440.model.TrackTest
 [ERROR] testAlbumNameIsStoredOnTrack  Time elapsed: 0 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <10> but was: <11>
 	at edu.montana.csci.csci440.model.TrackTest.testAlbumNameIsStoredOnTrack(TrackTest.java:96)
@@ -50,26 +52,22 @@ org.opentest4j.AssertionFailedError: expected: <10> but was: <11>
 org.opentest4j.AssertionFailedError: expected: <3> but was: <4>
 	at edu.montana.csci.csci440.model.TrackTest.advancedSearchTest(TrackTest.java:145)
 
-[ERROR] trackCountIsCachedInRedis  Time elapsed: 0.002 s  <<< ERROR!
-java.lang.NumberFormatException: Cannot parse null string
-	at edu.montana.csci.csci440.model.TrackTest.trackCountIsCachedInRedis(TrackTest.java:115)
-
-[ERROR] testArtistNameIsStoredOnTrack  Time elapsed: 0.003 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <37> but was: <39>
+[ERROR] testArtistNameIsStoredOnTrack  Time elapsed: 0.002 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <41> but was: <43>
 	at edu.montana.csci.csci440.model.TrackTest.testArtistNameIsStoredOnTrack(TrackTest.java:87)
 
 [INFO] Running edu.montana.csci.csci440.model.PlaylistsTest
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in edu.montana.csci.csci440.model.PlaylistsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s - in edu.montana.csci.csci440.model.PlaylistsTest
 [INFO] Running edu.montana.csci.csci440.model.AlbumTest
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.01 s - in edu.montana.csci.csci440.model.AlbumTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in edu.montana.csci.csci440.model.AlbumTest
 [INFO] Running edu.montana.csci.csci440.model.EmployeeTest
 Resetting DB After Test...
 Reports To: 1
@@ -79,8 +77,8 @@ Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[ERROR] Tests run: 7, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.022 s <<< FAILURE! - in edu.montana.csci.csci440.model.EmployeeTest
-[ERROR] testEmployeeHelperOnlyIssuesOneQuery  Time elapsed: 0.008 s  <<< FAILURE!
+[ERROR] Tests run: 7, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.019 s <<< FAILURE! - in edu.montana.csci.csci440.model.EmployeeTest
+[ERROR] testEmployeeHelperOnlyIssuesOneQuery  Time elapsed: 0.005 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
 	at edu.montana.csci.csci440.model.EmployeeTest.testEmployeeHelperOnlyIssuesOneQuery(EmployeeTest.java:88)
 
@@ -97,12 +95,12 @@ Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s - in edu.montana.csci.csci440.model.ArtistTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s - in edu.montana.csci.csci440.model.ArtistTest
 [INFO] Running edu.montana.csci.csci440.model.CustomerTest
 Resetting DB After Test...
 Resetting DB After Test...
 Resetting DB After Test...
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s - in edu.montana.csci.csci440.model.CustomerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in edu.montana.csci.csci440.model.CustomerTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -110,18 +108,17 @@ Resetting DB After Test...
 [ERROR]   EmployeeTest.testEmployeeHelperOnlyIssuesOneQuery:88 expected: <true> but was: <false>
 [ERROR]   TrackTest.advancedSearchTest:145 expected: <3> but was: <4>
 [ERROR]   TrackTest.testAlbumNameIsStoredOnTrack:96 expected: <10> but was: <11>
-[ERROR]   TrackTest.testArtistNameIsStoredOnTrack:87 expected: <37> but was: <39>
+[ERROR]   TrackTest.testArtistNameIsStoredOnTrack:87 expected: <41> but was: <43>
 [ERROR] Errors: 
 [ERROR]   EmployeeTest.testEmployeeSalesReport:93 » Runtime org.sqlite.SQLiteException: ...
-[ERROR]   TrackTest.trackCountIsCachedInRedis:115 » NumberFormat Cannot parse null strin...
 [INFO] 
-[ERROR] Tests run: 39, Failures: 4, Errors: 2, Skipped: 0
+[ERROR] Tests run: 39, Failures: 4, Errors: 1, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.457 s
-[INFO] Finished at: 2022-12-09T13:50:15-07:00
+[INFO] Total time:  1.973 s
+[INFO] Finished at: 2022-12-09T16:10:10-07:00
 [INFO] ------------------------------------------------------------------------
 [ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.22.1:test (default-test) on project CSCI_440_Project: There are test failures.
 [ERROR] 
