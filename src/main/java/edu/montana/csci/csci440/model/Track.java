@@ -26,7 +26,9 @@ public class Track extends Model {
     private Long bytes;
     private BigDecimal unitPrice;
 
-    private String albumTitle;
+    private String albumName;
+    private String artistName;
+
 
     public static final String REDIS_CACHE_KEY = "cs440-tracks-count-cache";
 
@@ -47,6 +49,8 @@ public class Track extends Model {
         albumId = results.getLong("AlbumId");
         mediaTypeId = results.getLong("MediaTypeId");
         genreId = results.getLong("GenreId");
+        //albumName = results.getString("AlbumName");
+        //artistName = results.getString("ArtistName");
     }
 
 
@@ -207,6 +211,8 @@ public class Track extends Model {
         this.trackId = trackId;
     }
 
+    public void setAlbumId(String album){albumId = Long.parseLong(album);}
+
     public String getName() {
         return name;
     }
@@ -276,19 +282,19 @@ public class Track extends Model {
     public String getAlbumTitle() {
         // TODO implement more efficiently
         //  hint: cache on this model object
-        String AlbumTitle = "";
+
+        String albumTitle = "";
         try(Connection conn = DB.connect();
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT albums.Title FROM tracks JOIN albums ON tracks.AlbumId = albums.AlbumId WHERE albums.AlbumId = ?"
+                    "SELECT albums.Title FROM tracks JOIN albums ON tracks.AlbumId = albums.AlbumId WHERE albums.AlbumId=?"
             )){
-            stmt.setLong(1, getAlbumId());
-            ResultSet results = stmt.executeQuery();
-            AlbumTitle = results.getString(1);
-
+            stmt.setLong(1,getAlbumId());
+            ResultSet result = stmt.executeQuery();
+            albumTitle = result.getString(1);
         } catch (SQLException sqlException) {
             throw new RuntimeException(sqlException);
         }
-        return AlbumTitle;
+        return albumTitle;
     }
 
     public static List<Track> advancedSearch(int page, int count,
@@ -309,6 +315,14 @@ public class Track extends Model {
         if(albumId !=null){
             query += " AND tracks.AlbumId=? ";
             args.add(albumId);
+        }
+        if(maxRuntime != null){
+            query += " AND Milliseconds < ?";
+            args.add(maxRuntime);
+        }
+        if(minRuntime != null){
+            query += " AND Milliseconds > ?";
+            args.add(minRuntime);
         }
 
         //  include the limit (you should include the page too :)

@@ -35,7 +35,7 @@ public class Employee extends Model {
 
         List<Employee.SalesSummary> resultList = new LinkedList<>();
         try(Connection conn = DB.connect();
-            PreparedStatement stmt = conn.prepareStatement("SELECT employees.FirstName AS FirstName, employees.LastName AS LastName, employees.Email AS Email, AS SalesCount, invoices.Total AS SalesTotal FROM employees JOIN customers ON employees.EmployeeId = customers.SupportRepId JOIN invoices ON customers.CustomerId = invoices.CustomerId")){
+            PreparedStatement stmt = conn.prepareStatement("SELECT employees.FirstName, employees.LastName, employees.Email, COUNT() AS SalesCount, SUM(salesTable.SalesTotal) AS SalesTotal FROM employees,(SELECT InvoiceId, SUM(Quantity * UnitPrice) AS SalesTotal FROM invoice_items GROUP BY InvoiceId) AS salesTable JOIN customers ON employees.EmployeeId = customers.SupportRepId JOIN invoices ON customers.CustomerId = invoices.CustomerId AND salesTable.InvoiceId = invoices.InvoiceId GROUP BY employees.Email")){
             ResultSet results = stmt.executeQuery();
 
             while (results.next()){
@@ -171,7 +171,7 @@ public class Employee extends Model {
         }
     }
     public Employee getBoss() {
-        System.out.println("Reports To: " + getReportsTo());
+        //System.out.println("Reports To: " + getReportsTo());
         return Employee.find(getReportsTo());
     }
 

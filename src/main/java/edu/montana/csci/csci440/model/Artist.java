@@ -80,6 +80,18 @@ public class Artist extends Model {
         }
     }
 
+    @Override
+    public void delete(){
+        if(verify()){
+            try(Connection conn = DB.connect();
+                PreparedStatement stmt = conn.prepareStatement(
+                        "DELETE FROM artists WHERE ArtistId = ?")){
+                stmt.setLong(1,this.getArtistId());
+                stmt.execute();
+            }catch (SQLException sqlException){throw new RuntimeException(sqlException);}
+        }
+    }
+
     public List<Album> getAlbums(){
         return Album.getForArtist(artistId);
     }
