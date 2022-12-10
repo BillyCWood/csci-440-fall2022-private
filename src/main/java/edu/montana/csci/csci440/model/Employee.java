@@ -35,7 +35,7 @@ public class Employee extends Model {
 
         List<Employee.SalesSummary> resultList = new LinkedList<>();
         try(Connection conn = DB.connect();
-            PreparedStatement stmt = conn.prepareStatement("SELECT employees.FirstName, employees.LastName, employees.Email, COUNT() AS SalesCount, SUM(salesTable.SalesTotal) AS SalesTotal FROM employees,(SELECT InvoiceId, SUM(Quantity * UnitPrice) AS SalesTotal FROM invoice_items GROUP BY InvoiceId) AS salesTable JOIN customers ON employees.EmployeeId = customers.SupportRepId JOIN invoices ON customers.CustomerId = invoices.CustomerId AND salesTable.InvoiceId = invoices.InvoiceId GROUP BY employees.Email")){
+            PreparedStatement stmt = conn.prepareStatement("SELECT employees.FirstName, employees.LastName, employees.Email, COUNT() AS SalesCount, ROUND(SUM(salesTable.SalesTotal),2) AS SalesTotal FROM employees,(SELECT InvoiceId, SUM(Quantity * UnitPrice) AS SalesTotal FROM invoice_items GROUP BY InvoiceId) AS salesTable JOIN customers ON employees.EmployeeId = customers.SupportRepId JOIN invoices ON customers.CustomerId = invoices.CustomerId AND salesTable.InvoiceId = invoices.InvoiceId GROUP BY employees.Email")){
             ResultSet results = stmt.executeQuery();
 
             while (results.next()){
